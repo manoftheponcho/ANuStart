@@ -1,0 +1,2 @@
+class Thief:
+    pass

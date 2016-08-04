@@ -1,0 +1,2 @@
+class WhiteMage:
+    pass

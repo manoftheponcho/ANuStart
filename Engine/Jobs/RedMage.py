@@ -1,0 +1,2 @@
+class RedMage:
+    pass
