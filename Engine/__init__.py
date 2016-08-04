@@ -2,10 +2,12 @@ import pyglet
 from .Constants import *
 from .TextBox import TextBox
 from .Jobs import *
+from Game import Game
 
 respond_rate = 1
 window = pyglet.window.Window(256, 240)
 objects = set()
+game = Game()
 
 
 def set_clear_color(color):
