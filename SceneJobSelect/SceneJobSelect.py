@@ -1,13 +1,16 @@
 import pyglet
 import Engine
+from SceneNameSelect import SceneNameSelect
 from Engine import UP, DOWN, LEFT, RIGHT, BUTTON_A, BUTTON_B
+
 
 class SceneJobSelect:
 
     def __init__(self):
         self.index_map = [(48, 159), (160, 159), (48, 63), (160, 63)]
-        self.cycle = {Engine.Fighter:Engine.Thief, Engine.Thief:Engine.BlackBelt, Engine.BlackBelt:Engine.RedMage,
-                      Engine.RedMage:Engine.WhiteMage, Engine.WhiteMage:Engine.BlackMage, Engine.BlackMage:Engine.Fighter}
+        self.cycle = {Engine.Fighter: Engine.Thief, Engine.Thief: Engine.BlackBelt,
+                      Engine.BlackBelt: Engine.RedMage, Engine.RedMage: Engine.WhiteMage,
+                      Engine.WhiteMage: Engine.BlackMage, Engine.BlackMage: Engine.Fighter}
         Engine.game.heroes[0].sprite.x, Engine.game.heroes[0].sprite.y = (64, 151)
         Engine.game.heroes[1].sprite.x, Engine.game.heroes[1].sprite.y = (176, 151)
         Engine.game.heroes[2].sprite.x, Engine.game.heroes[2].sprite.y = (64, 55)
@@ -55,7 +58,7 @@ class SceneJobSelect:
                 Engine.game.heroes[self.index].sprite.y = self.cursor.y - 8
             elif symbol in BUTTON_A:
                 self.index = min(4, self.index+1)
-#                Engine.game.scenes.append(SceneNameSelect(Engine.game, self.index-1))
+                SceneNameSelect(self.index-1)
         else:
             if symbol in BUTTON_A:
                 Engine.window.pop_handlers()
