@@ -1,7 +1,7 @@
 import Engine
 import pyglet
 from Engine import BLUE, UP, DOWN, LEFT, RIGHT, BUTTON_A, BUTTON_B
-
+from SceneJobSelect import SceneJobSelect
 
 class SceneNewGame:
     def __init__(self):
@@ -45,6 +45,7 @@ class SceneNewGame:
             Engine.respond_rate = 1 if Engine.respond_rate == 8 else Engine.respond_rate + 1
         elif symbol in BUTTON_A:
             Engine.window.pop_handlers()
+            SceneJobSelect()
         if symbol != pyglet.window.key.ESCAPE:  # the only keyboard event we want propagating up the stack
             return pyglet.event.EVENT_HANDLED
 

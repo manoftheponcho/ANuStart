@@ -1,6 +1,6 @@
 import Engine
 import pyglet
-
+from SceneNewGame import SceneNewGame
 
 class SceneIntro:
     class FadeInLabel(pyglet.text.Label):
@@ -73,7 +73,10 @@ class SceneIntro:
     def on_key_press(self, symbol, modifiers):
         if symbol == pyglet.window.key.ENTER:
             Engine.window.pop_handlers()
+            SceneNewGame()
 
 if __name__ == "__main__":
+    pyglet.resource.path = ['../resources']
+    pyglet.resource.reindex()
     scene = SceneIntro()
     pyglet.app.run()
