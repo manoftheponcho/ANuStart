@@ -2,6 +2,7 @@ import Engine
 import pyglet
 from SceneNewGame import SceneNewGame
 
+
 class SceneIntro:
     class FadeInLabel(pyglet.text.Label):
         def __init__(
