@@ -1,22 +1,11 @@
 import pyglet
+import itertools
 from SceneMap.Tiles import Water, Grass, Mountain, Forest
 
 
 class LimitedOverworld:
-    tiles = [Water(x, 0) for x in range(0, 848, 16)] + \
-            [Water(x, 16) for x in range(0, 848, 16)] + \
-            [Water(x, 32) for x in range(0, 848, 16)] + \
-            [Water(x, 48) for x in range(0, 848, 16)] + \
-            [Water(x, 64) for x in range(0, 848, 16)] + \
-            [Water(x, 80) for x in range(0, 848, 16)] + \
-            [Water(x, 96) for x in range(0, 848, 16)] + \
-            [Water(x, 112) for x in range(0, 528, 16)] + \
-            [Grass(528, 112), Grass(544, 112)] + \
-            [Water(x, 112) for x in range(560, 848, 16)] + \
-            [Water(x, 128) for x in range(0, 528, 16)] + \
-            [Grass(528, 128), Grass(544, 128), Grass(560, 128)] + \
-            [Water(x, 128) for x in range(576, 848, 16)]
-
+    tiles = {(x, y): Water() for x, y in itertools.product(range(0, 848, 16), range(0, 1104, 16))}
+    tiles[(528, 112)], tiles[(544, 112)] = Grass(), Grass()
 if __name__ == "__main__":
     window = pyglet.window.Window(1024, 960)
     current_map = LimitedOverworld()
@@ -24,8 +13,8 @@ if __name__ == "__main__":
     @window.event
     def on_draw():
         window.clear()
-        for tile in current_map.tiles:
-            tile.image.blit(tile.x, tile.y, 0)
+        for pos, tile in current_map.tiles.items():
+            tile.image.blit(pos[0], pos[1], 0)
 
 
     pyglet.app.run()

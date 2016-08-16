@@ -22,10 +22,6 @@ class Forest:
     image = pyglet.image.create(16, 16)
     image.set_data('RGBA', 64, image_bytes)
 
-    def __init__(self, x=0, y=0):
-        self.x, self.y = x, y
-
-
 if __name__ == "__main__":
     window = pyglet.window.Window(256, 240)
     forest = Forest()
