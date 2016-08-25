@@ -1,6 +1,7 @@
 import pyglet
 import Engine
 from SceneNameSelect import SceneNameSelect
+from SceneMap import SceneMap, LimitedOverworld
 from Engine import UP, DOWN, LEFT, RIGHT, BUTTON_A, BUTTON_B
 
 
@@ -62,6 +63,7 @@ class SceneJobSelect:
         else:
             if symbol in BUTTON_A:
                 Engine.window.pop_handlers()
+                SceneMap(LimitedOverworld())
 
         if symbol != pyglet.window.key.ESCAPE:  # the only keyboard event we want propagating up the stack
             return pyglet.event.EVENT_HANDLED

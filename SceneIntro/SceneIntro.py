@@ -74,10 +74,10 @@ class SceneIntro:
     def on_key_press(self, symbol, modifiers):
         if symbol == pyglet.window.key.ENTER:
             Engine.window.pop_handlers()
-            SceneNewGame()
+            Engine.scenes = [SceneNewGame()]
 
 if __name__ == "__main__":
     pyglet.resource.path = ['../resources']
     pyglet.resource.reindex()
-    scene = SceneIntro()
+    Engine.scenes = [SceneIntro()]
     pyglet.app.run()

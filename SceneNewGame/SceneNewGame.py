@@ -3,6 +3,7 @@ import pyglet
 from Engine import BLUE, UP, DOWN, LEFT, RIGHT, BUTTON_A, BUTTON_B
 from SceneJobSelect import SceneJobSelect
 
+
 class SceneNewGame:
     def __init__(self):
         Engine.set_clear_color((0, 0, 0, 255))

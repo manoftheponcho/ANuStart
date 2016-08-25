@@ -7,7 +7,7 @@ from Game import Game
 respond_rate = 1
 window = pyglet.window.Window(512, 480)
 game = Game()
-
+scenes = []
 
 def set_clear_color(color):
     pyglet.gl.gl.glClearColor(*color)
