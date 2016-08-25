@@ -2,9 +2,8 @@ __author__ = 'DUDE'
 
 import pyglet
 import random
-from TextBox import TextBox, BLACK
-from Engine import Engine, View
-from Config import LEFT, RIGHT, DOWN, UP, BUTTON_A, BUTTON_B
+import Engine
+from Engine import LEFT, RIGHT, DOWN, UP, BUTTON_A, BUTTON_B, BLACK, TextBox
 
 class Battler(object):
 
@@ -36,7 +35,7 @@ class Battler(object):
             self.status.add('Dead')
 
 class Enemy(Battler):
-    images = pyglet.image.load('./resources/monsters.png')
+    images = pyglet.resource.image('monsters.png')
     def __init__(self):
         super().__init__()
         self.maxhp = self.hp = 1
@@ -163,7 +162,7 @@ class Formation:
 class SceneBattle:
 
     class Cursor:
-        sprite = pyglet.sprite.Sprite(pyglet.image.load('./resources/cursor.png'))
+        sprite = pyglet.sprite.Sprite(pyglet.resource.image('cursor.png'))
         def __init__(self, matrix, pos=(0, 0)):
             self.matrix = matrix
             self.width = max([key[0] for key in self.matrix.keys()]) + 1
@@ -200,9 +199,7 @@ class SceneBattle:
             except KeyError:
                 self.move_down()
 
-    def __init__(self, engine, formation):
-        self.engine = engine
-        self.party = self.engine.heroes
+    def __init__(self, formation):
         self.formation = formation
         self.party_actions = []
         self.party_targets = []
@@ -215,10 +212,10 @@ class SceneBattle:
         self.layer_4 = pyglet.graphics.OrderedGroup(3)
         self.text = pyglet.graphics.OrderedGroup(4)
 
-        self.party[0].sprite.x, self.party[0].sprite.y = 176, 168
-        self.party[1].sprite.x, self.party[1].sprite.y = 176, 144
-        self.party[2].sprite.x, self.party[2].sprite.y = 176, 120
-        self.party[3].sprite.x, self.party[3].sprite.y = 176, 96
+        Engine.game.heroes[0].sprite.x, Engine.game.heroes[0].sprite.y = 176, 168
+        Engine.game.heroes[1].sprite.x, Engine.game.heroes[1].sprite.y = 176, 144
+        Engine.game.heroes[2].sprite.x, Engine.game.heroes[2].sprite.y = 176, 120
+        Engine.game.heroes[3].sprite.x, Engine.game.heroes[3].sprite.y = 176, 96
 
         self.objects = [TextBox(128, 144,   8,  88, BLACK, self.fixed, self.layer_1),  # Enemy window
                         TextBox( 64, 144, 136,  88, BLACK, self.fixed, self.layer_1),  # Party window
@@ -231,13 +228,13 @@ class SceneBattle:
                         pyglet.text.Label('HP', x=208,  y=80, font_size=8, batch=self.fixed, group=self.text),
                         pyglet.text.Label('HP', x=208, y=128, font_size=8, batch=self.fixed, group=self.text),
                         pyglet.text.Label('HP', x=208, y=176, font_size=8, batch=self.fixed, group=self.text),
-                        pyglet.text.Label(self.engine.heroes[3].name,
+                        pyglet.text.Label(Engine.game.heroes[3].name,
                                           x=208,  y=48, font_size=8, batch=self.fixed, group=self.text),
-                        pyglet.text.Label(self.engine.heroes[2].name,
+                        pyglet.text.Label(Engine.game.heroes[2].name,
                                           x=208,  y=96, font_size=8, batch=self.fixed, group=self.text),
-                        pyglet.text.Label(self.engine.heroes[1].name,
+                        pyglet.text.Label(Engine.game.heroes[1].name,
                                           x=208, y=144, font_size=8, batch=self.fixed, group=self.text),
-                        pyglet.text.Label(self.engine.heroes[0].name,
+                        pyglet.text.Label(Engine.game.heroes[0].name,
                                           x=208, y=192, font_size=8, batch=self.fixed, group=self.text),
                         TextBox(104,  80,  96,  16, BLACK, self.menu, self.layer_2),
                         pyglet.text.Label('FIGHT', x=112, y=72, font_size=8, batch=self.menu, group=self.text),
@@ -246,56 +243,56 @@ class SceneBattle:
                         pyglet.text.Label('ITEM',  x=112, y=24, font_size=8, batch=self.menu, group=self.text),
                         pyglet.text.Label('RUN',   x=160, y=72, font_size=8, batch=self.menu, group=self.text)]
 
-        self.engine.push_handlers(on_draw=self.on_draw)
+        Engine.window.push_handlers(on_draw=self.on_draw)
         pyglet.clock.schedule_once(lambda dt: self.action_setup(), 3)
 
     def on_draw(self):
-        self.engine.window.clear()
+        Engine.window.clear()
         self.fixed.draw()
-        for hero in self.party:
+        for hero in Engine.game.heroes:
             hero.sprite.draw()
         for enemy in self.formation.enemies:
             enemy.draw()
-        hp_list = [pyglet.text.Label(str(self.party[0].hp), x=224, y=168, font_size=8),
-                   pyglet.text.Label(str(self.party[1].hp), x=224, y=120, font_size=8),
-                   pyglet.text.Label(str(self.party[2].hp), x=224, y=72, font_size=8),
-                   pyglet.text.Label(str(self.party[3].hp), x=224, y=24, font_size=8)]
+        hp_list = [pyglet.text.Label(str(Engine.game.heroes[0].hp), x=224, y=168, font_size=8),
+                   pyglet.text.Label(str(Engine.game.heroes[1].hp), x=224, y=120, font_size=8),
+                   pyglet.text.Label(str(Engine.game.heroes[2].hp), x=224, y=72, font_size=8),
+                   pyglet.text.Label(str(Engine.game.heroes[3].hp), x=224, y=24, font_size=8)]
         for hp_label in hp_list:
             hp_label.draw()
         return pyglet.event.EVENT_HANDLED  # so the default (blank) drawing doesn't take over
 
     def roll_back(self):
-        self.party[len(self.party_actions)].sprite.x = 176
+        Engine.game.heroes[len(self.party_actions)].sprite.x = 176
         if len(self.party_actions) > 0:
             self.party_actions.pop()
         if len(self.party_targets) > 0:
             self.party_targets.pop()
 
     def action_setup(self):
-        if self.party[len(self.party_actions)].unconscious:
+        if Engine.game.heroes[len(self.party_actions)].unconscious:
             self.party_actions.append(None)
             self.party_targets.append(None)
             self.action_setup()
-        self.party[len(self.party_actions)].sprite.x = 160
-        self.engine.set_handlers(on_draw=self.action_draw,
-                                 on_key_press=self.action_key_press)
+        Engine.game.heroes[len(self.party_actions)].sprite.x = 160
+        Engine.window.set_handlers(on_draw=self.action_draw,
+                                   on_key_press=self.action_key_press)
         self.cursor = SceneBattle.Cursor({(0, 0): (96, 64), (1, 0): (144, 64),
                                           (0, 1): (96, 48), (1, 1): (144, 64),
                                           (0, 2): (96, 32), (1, 2): (144, 64),
                                           (0, 3): (96, 16), (1, 3): (144, 64)})
 
     def action_draw(self):
-        self.engine.window.clear()
+        Engine.window.clear()
         self.fixed.draw()
-        hp_list = [pyglet.text.Label(str(self.party[0].hp), x=224, y=168, font_size=8),
-                   pyglet.text.Label(str(self.party[1].hp), x=224, y=120, font_size=8),
-                   pyglet.text.Label(str(self.party[2].hp), x=224, y=72, font_size=8),
-                   pyglet.text.Label(str(self.party[3].hp), x=224, y=24, font_size=8)]
+        hp_list = [pyglet.text.Label(str(Engine.game.heroes[0].hp), x=224, y=168, font_size=8),
+                   pyglet.text.Label(str(Engine.game.heroes[1].hp), x=224, y=120, font_size=8),
+                   pyglet.text.Label(str(Engine.game.heroes[2].hp), x=224, y=72, font_size=8),
+                   pyglet.text.Label(str(Engine.game.heroes[3].hp), x=224, y=24, font_size=8)]
         for hp_label in hp_list:
             hp_label.draw()
         self.menu.draw()
         self.cursor.draw()
-        for hero in self.party:
+        for hero in Engine.game.heroes:
             hero.sprite.draw()
         for enemy in self.formation.enemies:
             enemy.draw()
@@ -313,7 +310,7 @@ class SceneBattle:
         if symbol in BUTTON_A:
             if self.cursor.menu_x == 0 and self.cursor.menu_y == 0:
                 index = len(self.party_actions)
-                self.party_actions.append(self.party[index].fight)
+                self.party_actions.append(Engine.game.heroes[index].fight)
                 self.target_setup()
         if symbol in BUTTON_B:
             self.roll_back()
@@ -323,26 +320,26 @@ class SceneBattle:
             return pyglet.event.EVENT_HANDLED
 
     def target_setup(self):
-        self.engine.set_handlers(on_draw=self.target_draw,
-                                 on_key_press=self.target_key_press)
+        Engine.window.set_handlers(on_draw=self.target_draw,
+                                   on_key_press=self.target_key_press)
         cursor_keys = [(0, i) for i in range(len(self.formation.enemies))]
         cursor_values = [(enemy.sprite.x-16, enemy.sprite.y+16) for enemy in self.formation.enemies]
         cursor_matrix = dict(list(zip(cursor_keys, cursor_values)))
         self.cursor = SceneBattle.Cursor(cursor_matrix)
 
     def target_draw(self):
-        self.engine.window.clear()
+        Engine.window.clear()
         self.fixed.draw()
         self.menu.draw()
         self.cursor.draw()
-        for hero in self.party:
+        for hero in Engine.game.heroes:
             hero.sprite.draw()
         for enemy in self.formation.enemies:
             enemy.draw()
-        hp_list = [pyglet.text.Label(str(self.party[0].hp), x=224, y=168, font_size=8),
-                   pyglet.text.Label(str(self.party[1].hp), x=224, y=120, font_size=8),
-                   pyglet.text.Label(str(self.party[2].hp), x=224, y=72, font_size=8),
-                   pyglet.text.Label(str(self.party[3].hp), x=224, y=24, font_size=8)]
+        hp_list = [pyglet.text.Label(str(Engine.game.heroes[0].hp), x=224, y=168, font_size=8),
+                   pyglet.text.Label(str(Engine.game.heroes[1].hp), x=224, y=120, font_size=8),
+                   pyglet.text.Label(str(Engine.game.heroes[2].hp), x=224, y=72, font_size=8),
+                   pyglet.text.Label(str(Engine.game.heroes[3].hp), x=224, y=24, font_size=8)]
         for hp_label in hp_list:
             hp_label.draw()
         return pyglet.event.EVENT_HANDLED
@@ -357,7 +354,7 @@ class SceneBattle:
         elif symbol in DOWN:
             self.cursor.move_down()
         if symbol in BUTTON_A:
-            self.party[len(self.party_targets)].sprite.x = 176
+            Engine.game.heroes[len(self.party_targets)].sprite.x = 176
             target = self.cursor.menu_x * self.cursor.height + self.cursor.menu_y
             self.party_targets.append(self.formation.enemies[target])
             if len(self.party_actions) == len(self.party_targets) == 4:
@@ -395,18 +392,16 @@ class SceneBattle:
     def check_win(self):
         if not [enemy for enemy in self.formation.enemies if not enemy.incapacitated]:
             print('You won!')
-            self.engine.scenes.pop()
-            self.engine.pop_handlers()
+            Engine.window.pop_handlers()
             return True
-        elif not [hero for hero in self.party if not hero.incapacitated]:
+        elif not [hero for hero in Engine.game.heroes if not hero.incapacitated]:
             print('You lost!')
-            self.engine.scenes.pop()
-            self.engine.pop_handlers()
+            Engine.window.pop_handlers()
             return True
         return False
 
 if __name__ == "__main__":
-    view = View()
-    engine = Engine(view)
-    engine.scenes.append(SceneBattle(engine, Formation(Imp(), Imp(), Imp())))
+    pyglet.resource.path = ['../resources']
+    pyglet.resource.reindex()
+    scene = SceneBattle(Formation(Imp(), Imp()))
     pyglet.app.run()
