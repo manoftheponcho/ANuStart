@@ -1,10 +1,12 @@
 import pyglet
+from .LightWarrior import LightWarrior
 
 
-class RedMage:
+class RedMage(LightWarrior):
     job_name = "RedMAGE"
 
     def __init__(self):
+        super().__init__()
         # TODO: fix widths on image bytestrings
         self.image_string = b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xb51 ' \
                             b'\xff\xb51 \xff\xb51 \xff\xb51 \xff\xb51 \xff\xb51 \xff\x00\x00\x00\x00\x00\x00\x00\x00' \
@@ -88,10 +90,6 @@ class RedMage:
         self.luck = 5
         self.accuracy = 7
         self.mdefense = 20
-        self.attack = 5
-        self.defense = 0
-        self.evasion = 58
-
 
 
 if __name__ == "__main__":

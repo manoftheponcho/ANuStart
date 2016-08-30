@@ -5,6 +5,10 @@ import random
 import Engine
 from Engine import LEFT, RIGHT, DOWN, UP, BUTTON_A, BUTTON_B, BLACK, TextBox
 
+pyglet.resource.path = ['../resources']
+pyglet.resource.reindex()
+
+
 class Battler(object):
 
     def __init__(self):
@@ -61,9 +65,9 @@ class Enemy(Battler):
         self.sprite = None
 
     def ai_choice(self, scene):
-        if not [z for z in scene.party if not z.unconscious]:
+        if not [z for z in Engine.game.heroes if not z.unconscious]:
             return
-        if (self.morale - 2 * scene.party[0].level + random.randint(0, 50)) < 80:
+        if (self.morale - 2 * Engine.game.heroes[0].level + random.randint(0, 50)) < 80:
             scene.enemies.remove(self)
         elif self.magic:
             if random.randint(0, 128) < self.magic_chance:
@@ -73,9 +77,9 @@ class Enemy(Battler):
                 self.use()
         else:
             target = random.choice([0, 0, 0, 0, 1, 1, 2, 3])
-            while scene.party[target].incapacitated:
+            while Engine.game.heroes[target].incapacitated:
                 target = random.choice([0, 0, 0, 0, 1, 1, 2, 3])
-            return self.fight, scene.party[target]
+            return self.fight, Engine.game.heroes[target]
 
     def fight(self, target):
         if self.incapacitated:
@@ -386,7 +390,7 @@ class SceneBattle:
                 pass
         self.party_actions = []
         self.party_targets = []
-        self.formation.enemies = list(filter(lambda x: x.incapacitated == False, self.formation.enemies))
+        self.formation.enemies = list(filter(lambda x: not x.incapacitated, self.formation.enemies))
         self.action_setup()
 
     def check_win(self):

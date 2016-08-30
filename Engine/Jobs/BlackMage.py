@@ -1,10 +1,12 @@
 import pyglet
+from .LightWarrior import LightWarrior
 
 
-class BlackMage:
+class BlackMage(LightWarrior):
     job_name = "Bl.MAGE"
 
     def __init__(self):
+        super().__init__()
         self.name = ''
         self.images = pyglet.resource.image('heroes.png')
         self.sprite = pyglet.sprite.Sprite(self.images.get_region(80, 0, 16, 24))
@@ -23,6 +25,3 @@ class BlackMage:
         self.luck = 10
         self.accuracy = 5
         self.mdefense = 20
-        self.attack = 1
-        self.defense = 0
-        self.evasion = 58

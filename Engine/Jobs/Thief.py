@@ -1,10 +1,12 @@
 import pyglet
+from .LightWarrior import LightWarrior
 
 
-class Thief:
+class Thief(LightWarrior):
     job_name = "THIEF"
 
     def __init__(self):
+        super().__init__()
         # TODO: fix widths on image bytestrings
         self.image_string = b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' \
                             b'km\x00\xffkm\x00\xffkm\x00\xffkm\x00\xffkm\x00\xffkm\x00\xff\x00\x00\x00\x00\x00' \
@@ -80,9 +82,6 @@ class Thief:
                            111932, 129131, 148008, 168639, 191103, 215479, 241843, 270275, 300851, 333651,
                            366450, 399250, 432049, 464849, 497648, 530448, 563247, 596047, 628846, 661646,
                            694445, 727245, 760044, 792844, 825643, 858443, 891242, 924042, 956841, 989641]
-        self.name = ''
-        self.level = 1
-        self.exp = 0
         self.max_hp = self.hp = 30
         self.strength = 5
         self.agility = 10
@@ -91,9 +90,6 @@ class Thief:
         self.luck = 15
         self.accuracy = 5
         self.mdefense = 15
-        self.attack = 2
-        self.defense = 0
-        self.evasion = 58
 
 if __name__ == "__main__":
     window = pyglet.window.Window(256, 240)

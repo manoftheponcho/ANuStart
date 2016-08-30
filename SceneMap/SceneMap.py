@@ -2,6 +2,7 @@ import pyglet
 import Engine
 from Engine import BUTTON_START
 from SceneMenu import SceneMenu
+from SceneBattle import SceneBattle
 
 
 class SceneMap:
@@ -19,6 +20,8 @@ class SceneMap:
     def on_key_press(self, symbol, modifiers):
         if symbol in BUTTON_START:
             SceneMenu()
+        if symbol == pyglet.window.key.B:
+            SceneBattle(self.map.formations[0])
         if symbol != pyglet.window.key.ESCAPE:
             return pyglet.event.EVENT_HANDLED
 

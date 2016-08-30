@@ -1,10 +1,12 @@
 import pyglet
+from .LightWarrior import LightWarrior
 
 
-class Fighter:
+class Fighter(LightWarrior):
     job_name = "FIGHTER"
 
     def __init__(self):
+        super().__init__()
         # TODO: fix widths on image bytestrings
         self.image_string = b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xb51 ' \
                             b'\xff\xb51 \xff\xb51 \xff\xb51 \xff\xb51 \xff\xb51 \xff\x00\x00\x00\x00\x00\x00\x00\x00' \
@@ -86,9 +88,7 @@ class Fighter:
         self.luck = 5
         self.accuracy = 10
         self.mdefense = 15
-        self.attack = 10
-        self.defense = 0
-        self.evasion = 53
+
 
 if __name__ == "__main__":
     window = pyglet.window.Window(256, 240)
