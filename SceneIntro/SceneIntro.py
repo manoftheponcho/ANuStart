@@ -74,7 +74,7 @@ class SceneIntro:
     def on_key_press(self, symbol, modifiers):
         if symbol == pyglet.window.key.ENTER:
             Engine.window.pop_handlers()
-            Engine.scenes = [SceneNewGame()]
+            SceneNewGame()
 
 if __name__ == "__main__":
     pyglet.resource.path = ['../resources']

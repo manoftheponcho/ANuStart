@@ -1,1 +1,1 @@
-from .SceneBattle import SceneBattle, Imp, Formation
+from .SceneBattle import SceneBattle, Imp, MadPony, Formation

@@ -1,4 +1,5 @@
 import pyglet
+import random
 import Engine
 from Engine import BUTTON_START
 from SceneMenu import SceneMenu
@@ -21,7 +22,7 @@ class SceneMap:
         if symbol in BUTTON_START:
             SceneMenu()
         if symbol == pyglet.window.key.B:
-            SceneBattle(self.map.formations[0])
+            SceneBattle(random.choice(self.map.formations))
         if symbol != pyglet.window.key.ESCAPE:
             return pyglet.event.EVENT_HANDLED
 
