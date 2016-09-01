@@ -1,9 +1,15 @@
 import pyglet
+import random
 from .LightWarrior import LightWarrior
 
 
 class Fighter(LightWarrior):
     job_name = "FIGHTER"
+    gains = ['     ', 'SA V ', 'SA VL', 'SAI L', 'SA V ', 'SA VL', 'SAI L', 'SA V ', 'SA VL', 'SAI L',
+             'SA V ', 'SA VL', 'SAI L', 'SA V ', 'SA VL', 'SA IL', 'SA V ', 'SA VL', 'SAI L', 'SA V ',
+             'S  VL', 'SAI L', 'SA V ', 'S  VL', 'SAI L', 'SA V ', 'S  VL', 'SAI L', 'SA V ', 'S  VL',
+             'SAI L', 'S  V ', 'SA  L', 'S IV ', 'SA  L', 'S  V ', 'SAI L', 'S  V ', 'SA  L', 'S IV ',
+             'SA   ', 'S    ', 'SAI  ', 'S    ', 'SA   ', 'S    ', 'SA   ', 'S    ', 'SA   ', 'S    ']
 
     def __init__(self):
         super().__init__()

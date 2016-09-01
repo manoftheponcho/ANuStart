@@ -195,7 +195,7 @@ class SceneBattle:
             else:
                 x, y = 16, 152
                 for enemy in self.enemies:
-                    enemy.sprite.x, enemy[-1].sprite.y = x, y
+                    enemy.sprite.x, enemy.sprite.y = x, y
                     y -= 48
                     if y == 56:
                         x += 48
@@ -401,14 +401,21 @@ class SceneBattle:
         self.action_setup()
 
     def check_win(self):
-        if not [enemy for enemy in self.enemies if not enemy.incapacitated]:
+        us = [hero for hero in Engine.game.heroes if not hero.incapacitated]
+        them = [enemy for enemy in self.enemies if not enemy.incapacitated]
+        if not them:
             print('You won!')
-            for hero in [hero for hero in Engine.game.heroes if not hero.incapacitated]:
-                hero.exp += self.exp
+            for hero in us:
+                next_level = [z for z in hero.exp_levels if z > hero.exp][0]
+                hero.exp += self.exp // len(us)
+                if hero.exp >= next_level:
+                    stat_ups = hero.level_up()
+                    print('{} + {}'.format(hero.name, stat_ups))
             Engine.game.gold += self.gold
+
             Engine.window.pop_handlers()
             return True
-        elif not [hero for hero in Engine.game.heroes if not hero.incapacitated]:
+        elif not us:
             print('You lost!')
             Engine.window.pop_handlers()
             return True

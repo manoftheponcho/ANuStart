@@ -3,6 +3,7 @@ import random
 
 class LightWarrior:
     class_name = "NONE"
+    gains = [''] * 50
 
     def __init__(self):
         self.name = ''
@@ -67,3 +68,18 @@ class LightWarrior:
                 hit_damage = random.randint(self.attack, 2 * self.attack + 1) - target.defense
                 damage += max(hit_damage, 1)
         target.hp -= damage
+
+    def level_up(self):
+        if self.level >= 50:
+            return
+        str_up = 1 if 'S' in self.gains[self.level] else random.choice([0, 0, 0, 1])
+        agi_up = 1 if 'A' in self.gains[self.level] else random.choice([0, 0, 0, 1])
+        int_up = 1 if 'I' in self.gains[self.level] else random.choice([0, 0, 0, 1])
+        vit_up = 1 if 'V' in self.gains[self.level] else random.choice([0, 0, 0, 1])
+        luk_up = 1 if 'L' in self.gains[self.level] else random.choice([0, 0, 0, 1])
+        self.strength += str_up
+        self.agility += agi_up
+        self.intelligence += int_up
+        self.vitality += vit_up
+        self.luck += luk_up
+        return str_up, agi_up, int_up, vit_up, luk_up
