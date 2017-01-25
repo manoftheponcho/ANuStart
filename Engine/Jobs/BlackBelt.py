@@ -1,10 +1,12 @@
 import pyglet
+from .LightWarrior import LightWarrior
 
 
-class BlackBelt:
+class BlackBelt(LightWarrior):
     job_name = "Bl.BELT"
 
     def __init__(self):
+        super().__init__()
         # TODO: fix widths on image bytestrings
         self.image_string = ''.join(['{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}',
                                      '{0}{0}{0}{0}{0}{2}{2}{2}{2}{2}{2}{2}{0}{0}{0}{0}',
@@ -50,10 +52,6 @@ class BlackBelt:
         self.luck = 5
         self.accuracy = 5
         self.mdefense = 10
-        self.attack = 2
-        self.defense = 0
-        self.evasion = 53
-
 
 
 if __name__ == "__main__":

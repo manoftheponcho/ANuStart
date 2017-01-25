@@ -1,10 +1,18 @@
 import pyglet
+import random
+from .LightWarrior import LightWarrior
 
 
-class Fighter:
+class Fighter(LightWarrior):
     job_name = "FIGHTER"
+    gains = ['     ', 'SA V ', 'SA VL', 'SAI L', 'SA V ', 'SA VL', 'SAI L', 'SA V ', 'SA VL', 'SAI L',
+             'SA V ', 'SA VL', 'SAI L', 'SA V ', 'SA VL', 'SA IL', 'SA V ', 'SA VL', 'SAI L', 'SA V ',
+             'S  VL', 'SAI L', 'SA V ', 'S  VL', 'SAI L', 'SA V ', 'S  VL', 'SAI L', 'SA V ', 'S  VL',
+             'SAI L', 'S  V ', 'SA  L', 'S IV ', 'SA  L', 'S  V ', 'SAI L', 'S  V ', 'SA  L', 'S IV ',
+             'SA   ', 'S    ', 'SAI  ', 'S    ', 'SA   ', 'S    ', 'SA   ', 'S    ', 'SA   ', 'S    ']
 
     def __init__(self):
+        super().__init__()
         # TODO: fix widths on image bytestrings
         self.image_string = b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xb51 ' \
                             b'\xff\xb51 \xff\xb51 \xff\xb51 \xff\xb51 \xff\xb51 \xff\x00\x00\x00\x00\x00\x00\x00\x00' \
@@ -86,9 +94,7 @@ class Fighter:
         self.luck = 5
         self.accuracy = 10
         self.mdefense = 15
-        self.attack = 10
-        self.defense = 0
-        self.evasion = 53
+
 
 if __name__ == "__main__":
     window = pyglet.window.Window(256, 240)

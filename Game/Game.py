@@ -4,4 +4,4 @@ import Engine
 class Game:
     def __init__(self):
         self.heroes = [Engine.Fighter(), Engine.Thief(), Engine.BlackBelt(), Engine.RedMage()]
-        self.gold = 500
+        self.gold = 400
